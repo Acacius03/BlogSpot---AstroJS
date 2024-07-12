@@ -1,0 +1,48 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/images/logo.png';
+
+const endpoint = Astro.url.pathname;
+---
+
+<header id='header' class='fixed top-0 left-0 right-0 z-[100] duration-1000'>
+	<nav
+		class='min-h-20 w-[85%] max-w-[1440px] mx-auto flex justify-between items-center text-neutral-200'>
+		<a href='/' class='mr-auto bg-black/60 rounded-full h-10'>
+			<Image
+				alt='logo'
+				src={logo}
+				width={150}
+				height={40}
+				class='object-cover p-2 max-h-full'
+			/>
+		</a>
+		<a
+			href='/'
+			class={`font-semibold px-4 py-2 rounded-lg ${endpoint === '/' ? 'text-neutral-100 pointer-events-none relative after:absolute after:w-full after:h-1 after:bg-[#00FFFF] after:left-0 after:bottom-0 ' : 'hover:bg-gray-950/30 '}`}>
+			Home
+		</a>
+		<a
+			href='/about'
+			class={`font-semibold px-4 py-2 rounded-lg ${endpoint === '/about' ? 'text-neutral-100 pointer-events-none relative after:absolute after:w-full after:h-1 after:bg-[#00FFFF] after:left-0 after:bottom-0 ' : 'hover:bg-gray-950/30'}`}>
+			About
+		</a>
+	</nav>
+</header>
+<script>
+	let scrollVal = 0;
+	const header = document.getElementById('header');
+	window.addEventListener('scroll', () => {
+		if (window.scrollY > 0) {
+			header?.classList.add('bg-neutral-900');
+		} else {
+			header?.classList.remove('bg-neutral-900');
+		}
+		if (window.scrollY > scrollVal && window.scrollY > 100) {
+			header?.classList.add('-translate-y-full');
+		} else {
+			header?.classList.remove('-translate-y-full');
+		}
+		scrollVal = window.scrollY;
+	});
+</script>
