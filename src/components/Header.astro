@@ -5,6 +5,7 @@ import { Image } from 'astro:assets';
 import logo from '../assets/images/logo.png';
 
 const endpoint = Astro.url.pathname.split('/').pop();
+console.log(endpoint);
 ---
 
 <header id='header' class='fixed top-0 left-0 right-0 z-[100] duration-1000'>
@@ -19,14 +20,15 @@ const endpoint = Astro.url.pathname.split('/').pop();
 				class='object-cover p-2 max-h-full'
 			/>
 		</a>
+		<!-- ${endpoint === '' ? 'text-neutral-100 pointer-events-none relative after:absolute after:w-full after:h-1 after:bg-[#00FFFF] after:left-0 after:bottom-0 ' : -->
 		<a
 			href={BASE_URL}
-			class={`font-semibold px-4 py-2 rounded-lg ${endpoint === '' ? 'text-neutral-100 pointer-events-none relative after:absolute after:w-full after:h-1 after:bg-[#00FFFF] after:left-0 after:bottom-0 ' : 'hover:bg-gray-950/30 '}`}>
+			class='font-semibold px-4 py-2 rounded-lg hover:bg-gray-950/30'>
 			Home
 		</a>
 		<a
 			href={BASE_URL + '/about'}
-			class={`font-semibold px-4 py-2 rounded-lg ${endpoint === 'about' ? 'text-neutral-100 pointer-events-none relative after:absolute after:w-full after:h-1 after:bg-[#00FFFF] after:left-0 after:bottom-0 ' : 'hover:bg-gray-950/30'}`}>
+			class='font-semibold px-4 py-2 rounded-lg hover:bg-gray-950/30'>
 			About
 		</a>
 	</nav>
