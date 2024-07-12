@@ -1,14 +1,16 @@
 ---
+import { BASE_URL } from '../configs/site_data';
+
 import { Image } from 'astro:assets';
 import logo from '../assets/images/logo.png';
 
-const endpoint = Astro.url.pathname;
+const endpoint = Astro.url.pathname.split('/').pop();
 ---
 
 <header id='header' class='fixed top-0 left-0 right-0 z-[100] duration-1000'>
 	<nav
 		class='min-h-20 w-[85%] max-w-[1440px] mx-auto flex justify-between items-center text-neutral-200'>
-		<a href='/' class='mr-auto bg-black/60 rounded-full h-10'>
+		<a href={BASE_URL} class='mr-auto bg-black/60 rounded-full h-10'>
 			<Image
 				alt='logo'
 				src={logo}
@@ -18,13 +20,13 @@ const endpoint = Astro.url.pathname;
 			/>
 		</a>
 		<a
-			href='/'
-			class={`font-semibold px-4 py-2 rounded-lg ${endpoint === '/' ? 'text-neutral-100 pointer-events-none relative after:absolute after:w-full after:h-1 after:bg-[#00FFFF] after:left-0 after:bottom-0 ' : 'hover:bg-gray-950/30 '}`}>
+			href={BASE_URL}
+			class={`font-semibold px-4 py-2 rounded-lg ${endpoint === '' ? 'text-neutral-100 pointer-events-none relative after:absolute after:w-full after:h-1 after:bg-[#00FFFF] after:left-0 after:bottom-0 ' : 'hover:bg-gray-950/30 '}`}>
 			Home
 		</a>
 		<a
-			href='/about'
-			class={`font-semibold px-4 py-2 rounded-lg ${endpoint === '/about' ? 'text-neutral-100 pointer-events-none relative after:absolute after:w-full after:h-1 after:bg-[#00FFFF] after:left-0 after:bottom-0 ' : 'hover:bg-gray-950/30'}`}>
+			href={BASE_URL + '/about'}
+			class={`font-semibold px-4 py-2 rounded-lg ${endpoint === 'about' ? 'text-neutral-100 pointer-events-none relative after:absolute after:w-full after:h-1 after:bg-[#00FFFF] after:left-0 after:bottom-0 ' : 'hover:bg-gray-950/30'}`}>
 			About
 		</a>
 	</nav>
