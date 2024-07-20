@@ -1,8 +1,19 @@
 ---
-import Hero from "../components/Hero.astro";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection, getEntry } from 'astro:content';
 
+import Hero from '../components/Hero.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FeaturedBlogCard from '../components/FeaturedBlogCard.astro';
+
+const BlogsCollection = await getCollection('blog');
 ---
+
 <BaseLayout>
-    <Hero />
+	<Hero />
+	<section class='w-[85%] mx-auto max-w-[1440px] my-4'>
+		<h4 class='text-3xl font-bold'>Featured Blogs</h4>
+		<div class='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4'>
+			{BlogsCollection.map((blog) => <FeaturedBlogCard post={blog.data} />)}
+		</div>
+	</section>
 </BaseLayout>
