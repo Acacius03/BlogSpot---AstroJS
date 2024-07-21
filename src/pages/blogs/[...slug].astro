@@ -1,0 +1,58 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import FormattedDate from '../../components/FormattedDate.astro'
+// 1. Generate a new path for every collection entry
+export async function getStaticPaths() {
+  const blogEntries = await getCollection("blog");
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+// 2. For your template, you can get the entry directly from the prop
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<BaseLayout>
+  <article>
+    <figure
+      class="relative select-none after:absolute after:inset-0 after:bg-gradient-to-b after:from-transparent after:to-gray-950"
+    >
+      <img
+        src={entry.data.image}
+        alt={entry.data.title}
+        class="size-full max-h-dvh object-cover"
+      />
+    </figure>
+    <div
+      class="absolute left-[5dvw] right-[5dvw] top-[45dvh] h-max rounded-lg bg-neutral-300 text-neutral-800"
+    >
+      <header class="border-b p-10 pb-5">
+        <h1 class="text-4xl font-bold sm:text-5xl lg:text-6xl xl:text-7xl">
+          {entry.data.title}
+        </h1>
+        <small class="text-sm sm:text-base lg:text-lg xl:text-xl my-3 block font-semibold ">
+           Published on
+           <FormattedDate date={entry.data.created_at}/>
+        </small>
+        <p class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl">
+          {entry.data.description}
+        </p>
+      </header>
+      <main class="p-10 pt-5">
+        <div    
+          class="prose lg:prose-xl xl:prose-2xl max-w-none prose-headings:text-neutral-700 prose-p:text-justify prose-p:indent-5"
+        >
+          <Content />
+        </div>
+      </main>
+    </div>
+  </article>`;
+</BaseLayout>
+<style>
+  h2 {
+    background-color: aqua;
+  }
+</style>

@@ -1,4 +1,6 @@
 ---
+import { BASE_URL } from "../configs/site_data";
+import FormattedDate from "./FormattedDate.astro";
 const { post } = Astro.props;
 ---
 
@@ -6,20 +8,23 @@ const { post } = Astro.props;
 	class='rounded-lg overflow-hidden bg-black border-[1px] border-gray-600'>
 	<figure class='relative'>
 		<img
-			src={post.image}
-			alt={post.title}
-			class='w-full h-[300px] object-cover'
+			src={post.data.image}
+			alt={post.data.title}
+			class='w-full h-[300px] object-cover select-none'
 		/>
 		<figcaption
 			class='absolute p-4 inset-0 bg-gradient-to-b from-transparent to-black flex flex-col justify-end'>
-			<h2 class='text-2xl font-bold'>{post.title}</h2>
-			<small class='text-xs indent-0.5'>Posted on March 16, 2023</small>
-			<p class='text-neutral-400 mt-2'>{post.description}</p>
+			<h2 class='text-2xl font-bold'>{post.data.title}</h2>
+			<small class='text-xs indent-0.5'>
+				Posted on
+				<FormattedDate date={post.data.created_at}/>
+			</small>
+			<p class='text-neutral-400 mt-2'>{post.data.description}</p>
 		</figcaption>
 	</figure>
 	<section>
-		<button class='bg-[#008080] font-bold py-2 text-lg w-full'>
+		<a href={BASE_URL+'/blogs/'+post.slug} class='bg-[#008080] hover:bg-[#00AAAA] block text-center font-bold py-2 text-lg w-full'>
 			READ MORE
-		</button>
+		</a>
 	</section>
 </article>
