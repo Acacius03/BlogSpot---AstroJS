@@ -1,30 +1,44 @@
 ---
 import { BASE_URL } from "../configs/site_data";
+import type { Props } from "../types";
+
+// Components
 import FormattedDate from "./FormattedDate.astro";
-const { post } = Astro.props;
+
+// End of Components
+const { blog : 
+	{
+		slug,
+		data: { image, title, created_at, description },
+	} 
+}: Props = Astro.props;
 ---
 
 <article
-	class='rounded-lg overflow-hidden bg-black border-[1px] border-gray-600'>
-	<figure class='relative'>
-		<img
-			src={post.data.image}
-			alt={post.data.title}
-			class='w-full h-[300px] object-cover select-none'
-		/>
-		<figcaption
-			class='absolute p-4 inset-0 bg-gradient-to-b from-transparent to-black flex flex-col justify-end'>
-			<h2 class='text-2xl font-bold'>{post.data.title}</h2>
-			<small class='text-xs indent-0.5'>
-				Posted on
-				<FormattedDate date={post.data.created_at}/>
-			</small>
-			<p class='text-neutral-400 mt-2'>{post.data.description}</p>
-		</figcaption>
-	</figure>
-	<section>
-		<a href={BASE_URL+'/blogs/'+post.slug} class='bg-[#008080] hover:bg-[#00AAAA] block text-center font-bold py-2 text-lg w-full'>
-			READ MORE
-		</a>
-	</section>
+  class="overflow-hidden rounded-lg border-[1px] border-gray-600 bg-black"
+>
+  <figure class="relative">
+    <img
+      src={image}
+      alt={title}
+      class="h-[300px] w-full select-none object-cover"
+    />
+    <figcaption
+      class="absolute inset-0 flex flex-col justify-end bg-gradient-to-b from-transparent to-black p-4"
+    >
+      <h2 class="text-2xl font-bold">{title}</h2>
+      <small class="indent-0.5 text-xs">
+        Posted on <FormattedDate date={created_at} />
+      </small>
+      <p class="mt-2 text-neutral-400">{description}</p>
+    </figcaption>
+  </figure>
+  <section>
+    <a
+      href={BASE_URL + "/blogs/" + slug}
+      class="block w-full bg-[#008080] py-2 text-center text-lg font-bold hover:bg-[#00AAAA]"
+    >
+      READ MORE
+    </a>
+  </section>
 </article>

@@ -1,0 +1,36 @@
+---
+    import { BASE_URL } from "../configs/site_data"
+
+    import type { Props } from "../types"
+
+    const { blog } : Props = Astro.props
+---
+
+<figure class="flex max-h-44 rounded-lg overflow-hidden border basis-[340px] flex-grow">
+    <div class="w-[40%] overflow-hidden">
+      <img
+        src={blog.data.image}
+        alt={blog.data.title}
+        class="size-full object-cover aspect-square"
+      />
+    </div>
+    <figcaption class="p-4 flex-1 leading-none">
+      <h2 class="text-xl leading-none font-bold ">
+        <a href={BASE_URL+"/blogs/" + blog.slug}>
+          {blog.data.title}
+        </a>
+      </h2>
+      <small class="text-neutral-400 leading-none text-xs">
+            Posted on March 16, 2023
+      </small>
+      <ul class="flex mt-4">
+        {blog.data.tags.map((tag : String) => (
+          <li>
+            <a href={BASE_URL} class="bg-gray-800 px-3 lowercase font-mono py-0.5 leading-none rounded-full" >
+              {tag}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </figcaption>
+  </figure>

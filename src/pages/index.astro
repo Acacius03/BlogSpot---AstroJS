@@ -1,61 +1,32 @@
 ---
-import { BASE_URL } from "../configs/site_data";
-import { getCollection, getEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import type { Blog } from "../types";
 
-import Hero from "../components/Hero.astro";
+// Components
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
 import FeaturedBlogCard from "../components/FeaturedBlogCard.astro";
+import BlogCard from "../components/BlogCard.astro";
+// End of Components
 
-const BlogsCollection = await getCollection("blog");
-const FeaturedBlogs = BlogsCollection.splice(0, 6);
+const BlogsCollection : Blog[] = await getCollection("blog") as Blog[];
+const FeaturedBlogs : Blog[] = BlogsCollection.splice(0, 6);
 ---
 
 <BaseLayout>
   <Hero />
-  <section class="mx-auto my-4 w-[85%] max-w-[1440px]">
-    <h4 class="text-3xl font-bold">Featured Blogs</h4>
+  <Section title="Featured Blogs">
     <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-      {FeaturedBlogs.map((blog) => <FeaturedBlogCard post={blog} />)}
+      { FeaturedBlogs.map(blog => <FeaturedBlogCard blog={blog} />) }
     </div>
-  </section>
-  <section class="mx-auto my-4 w-[85%] max-w-[1440px] lg:flex">
-    <aside class="flex-shrink-0 basis-[400px] lg:order-1"></aside>
-    <div class="flex-grow">
-      <h2 class="text-3xl font-bold">Other Blogs</h2>
-      <div class="mt-4 flex gap-4 flex-wrap">
-        {
-          BlogsCollection.map((blog) => (
-            <figure class="flex max-h-44 rounded-lg overflow-hidden border basis-[340px] flex-grow">
-              <div class="w-[40%] overflow-hidden">
-                <img
-                  src={blog.data.image}
-                  alt={blog.data.title}
-                  class="size-full object-cover aspect-square"
-                />
-              </div>
-              <figcaption class="p-4 flex-1 leading-none">
-                <h2 class="text-xl leading-none font-bold ">
-					<a href={BASE_URL+"/blogs/" + blog.slug}>
-						{blog.data.title}
-					</a>
-				</h2>
-                <small class="text-neutral-400 leading-none text-xs">
-                  	Posted on March 16, 2023
-                </small>
-				<ul class="flex mt-4">
-					{blog.data.tags.map(tag=>(
-						<li>
-							<a href={BASE_URL} class="bg-gray-800 px-3 lowercase font-mono py-0.5 leading-none rounded-full" >
-								{tag}
-							</a>
-						</li>
-					))}
-				</ul>
-              </figcaption>
-            </figure>
-          ))
-        }
+  </Section>
+  <Section title="Other Blogs">
+    <div class="lg:flex">
+      <aside class="flex-shrink-0 basis-[400px] lg:order-1"></aside>
+      <div class="mt-4 flex gap-4 flex-wrap flex-grow">
+        { BlogsCollection.map(blog => <BlogCard blog={blog} />) }
       </div>
     </div>
-  </section>
+  </Section>
 </BaseLayout>
